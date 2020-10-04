@@ -78,10 +78,76 @@ public class Loja {
     public String getInscricaoEstadual() {
         return this.inscricaoEstadual;
     }
+    
+    public static boolean isEmpty(String input){
+		if (input == null){
+			return true;
+		}
+		
+		if (input.equals("")){
+			return true;
+		}
+
+		else{
+			return false;
+		}
+	}
+
+    public static String Quebra_Linha = System.lineSeparator();
+
+    public void validarCamposObrigatorio(){
+        
+        if (isEmpty(this.getNomeLoja())){
+			throw new RuntimeException ("O campo nome da loja é obrigatório");
+		}
+
+		if (isEmpty(this.getLogradouro())){
+			throw new RuntimeException ("O campo logradouro do endereço é obrigatório");
+		}
+
+		if(isEmpty(this.getMunicipio())) {
+			throw new RuntimeException("O campo município do endereço é obrigatório");
+		}
+		
+		if(isEmpty(this.getEstado())) {
+			throw new RuntimeException("O campo estado do endereço é obrigatório");
+		}
+	
+		if(isEmpty(this.getCnpj()))
+			throw new RuntimeException("O campo cnpj da loja é obrigatório");
+	
+		if(isEmpty(this.getInscricaoEstadual())){
+			throw new RuntimeException("O campo inscrição estadual da loja é obrigatório");
+		}
+		
+    }
 
     public String dadosLoja() {
-		// Implemente aqui
-		return null;
+
+        String _logradouro = this.getLogradouro() + ", ";
+		String _numero = (this.getNumero() <= 0)? "s/n" : String.format("%d", this.getNumero());
+		String _complemento = isEmpty(this.getComplemento())? "" : " " + this.getComplemento();
+		String _bairro = isEmpty(this.getBairro())? "" : this.getBairro() + " - ";
+		String _municipio = this.getMunicipio() + " - ";
+		
+		String _cep = isEmpty(this.getCep())? "" : "CEP:" + this.getCep();
+		String _telefone = isEmpty(this.getTelefone())? "" : "Tel " + this.getTelefone();
+		_telefone = (!_telefone.isEmpty() && !_cep.isEmpty())? " " + _telefone : _telefone;
+		
+		String _observacao = isEmpty(this.getObservacao())? "" : this.getObservacao();
+						
+		String _cnpj = "CNPJ: " + this.getCnpj();
+		String _inscricao_estadual = "IE: " + this.getInscricaoEstadual();
+
+		String dados_cupom = this.getNomeLoja() + Quebra_Linha;
+		dados_cupom += _logradouro + _numero + _complemento  + Quebra_Linha;
+		dados_cupom += _bairro + _municipio + this.getEstado() + Quebra_Linha;
+		dados_cupom += _cep + _telefone + Quebra_Linha;
+		dados_cupom += _observacao + Quebra_Linha;
+		dados_cupom += _cnpj + Quebra_Linha;
+		dados_cupom += _inscricao_estadual + Quebra_Linha;
+
+		return dados_cupom;
 	}
 
 }
